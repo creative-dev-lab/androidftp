@@ -1,7 +1,7 @@
 package com.peppe.ftpclient.androidftp.FTPFilesExplorer;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;

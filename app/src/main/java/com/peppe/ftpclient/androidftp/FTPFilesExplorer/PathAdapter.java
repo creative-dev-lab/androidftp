@@ -1,6 +1,6 @@
 package com.peppe.ftpclient.androidftp.FTPFilesExplorer;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +97,7 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.ViewHolder> {
         @Override
         public void onClick(View v) {
             Log.d(TAG, "Directory Path " + path + " clicked.");
-            fragment.changeWorkingDirectory(path, false);
+            fragment.changeWorkingDirectory(path);
         }
     }
 }

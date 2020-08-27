@@ -10,23 +10,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.NotificationCompat;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +34,6 @@ import com.peppe.ftpclient.androidftp.FTPFilesExplorer.FTPLocalExplorer.UploadPr
 import com.peppe.ftpclient.androidftp.FTPFilesExplorer.FilesFragment;
 import com.peppe.ftpclient.androidftp.R;
 
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;

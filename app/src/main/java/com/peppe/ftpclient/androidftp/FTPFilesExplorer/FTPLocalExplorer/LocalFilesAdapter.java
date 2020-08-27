@@ -1,6 +1,6 @@
 package com.peppe.ftpclient.androidftp.FTPFilesExplorer.FTPLocalExplorer;
 
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;

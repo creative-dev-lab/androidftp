@@ -10,7 +10,7 @@
     android:paddingBottom="8dp"
     tools:context=".EditConnectionFragment">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -21,9 +21,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/connection_name_edit" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/hostInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/connection_host_edit" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Switch
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
         android:checked="false"
         android:paddingTop="16dp"/>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -56,9 +56,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/connection_user_edit" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -70,10 +70,10 @@
             android:hint="@string/connection_pass_edit"
             android:inputType="textPassword"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/portInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             android:inputType="number"
             android:ems="5"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
