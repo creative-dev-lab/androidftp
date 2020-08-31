@@ -1,12 +1,13 @@
 package com.peppe.ftpclient.androidftp.FTPConnectionsList;
 
-//import android.app.ListFragment;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.fragment.app.ListFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +24,16 @@ import com.peppe.ftpclient.androidftp.R;
 /**
  * Created by Geri on 12/10/2015.
  */
-public class ConnectionsFragment extends ListFragment{
+public class ConnectionsFragment extends ListFragment {
     private SimpleCursorAdapter adapter;
     private FTPConnectionsDBHelper dbHelper;
     public static final String TAG = "CONNECTION_FRAGMENT";
 
-    public ConnectionsFragment(){}
+    public ConnectionsFragment() {
+    }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -39,15 +41,12 @@ public class ConnectionsFragment extends ListFragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         dbHelper = new FTPConnectionsDBHelper(getActivity());
         dbHelper.open();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_connections, container, false);
     }
 
@@ -66,17 +65,17 @@ public class ConnectionsFragment extends ListFragment{
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
 
-        TextView empty=(TextView)view.findViewById(R.id.connections_empty);
+        TextView empty = (TextView) view.findViewById(R.id.connections_empty);
         ListView list = getListView();
-        View.OnClickListener listener =  new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getListView().getAdapter().isEmpty())
-                    ((MainActivity)getActivity()).startEditConnection(null);
+                if (getListView().getAdapter().isEmpty())
+                    ((MainActivity) getActivity()).startEditConnection(null);
             }
         };
         view.setOnClickListener(listener);
@@ -85,13 +84,13 @@ public class ConnectionsFragment extends ListFragment{
 
         Cursor cursor = dbHelper.fetchAllData();
 
-        String[] columns = new String[] {
+        String[] columns = new String[]{
                 FTPConnectionsDBHelper.KEY_NAME,
                 FTPConnectionsDBHelper.KEY_USER,
                 FTPConnectionsDBHelper.KEY_HOST
         };
 
-        int[] to = new int[] {
+        int[] to = new int[]{
                 R.id.connectionNameTextView,
                 R.id.connectionUserTextView,
                 R.id.connectionHostTextView
@@ -125,18 +124,18 @@ public class ConnectionsFragment extends ListFragment{
 
                 FTPConnection connection = new FTPConnection(cid, name, host, user, pass, port, protocol);
 
-                Toast t = ((MainActivity)getActivity()).commonToast;
+                Toast t = ((MainActivity) getActivity()).commonToast;
                 t.setText("Connecting...");
                 t.show();
 
                 //Toast.makeText(getActivity(), "Connecting...", Toast.LENGTH_SHORT).show();
-                ((MainActivity)getActivity()).connectTo(connection);
+                ((MainActivity) getActivity()).connectTo(connection);
             }
         });
     }
 
-    public void editDatabase(FTPConnection old, FTPConnection edited){
-        if(old == null)
+    public void editDatabase(FTPConnection old, FTPConnection edited) {
+        if (old == null)
             dbHelper.insertFTPConnection(edited);
         else {
             ContentValues cv = new ContentValues();

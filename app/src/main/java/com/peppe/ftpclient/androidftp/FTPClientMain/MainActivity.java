@@ -1,17 +1,20 @@
 package com.peppe.ftpclient.androidftp.FTPClientMain;
 
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,8 +30,9 @@ import com.peppe.ftpclient.androidftp.FTPFilesExplorer.FTPViewPager;
 import com.peppe.ftpclient.androidftp.FTPFilesExplorer.FilesFragment;
 import com.peppe.ftpclient.androidftp.R;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+import java.util.Objects;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = "MAINACTIVITY";
 
     private final int MY_EXTERNAL_STORAGE = 401;
@@ -50,8 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,20 +63,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.d(TAG, "before replace");
         getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onBackStackChanged() {
                 int stackHeight = getSupportFragmentManager().getBackStackEntryCount();
                 if (stackHeight > 0) { // if we have something on the stack (doesn't include the current shown fragment)
-                    getSupportActionBar().setHomeButtonEnabled(true);
+                    Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 } else {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     getSupportActionBar().setHomeButtonEnabled(false);
                 }
             }
 
         });
-
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         cf = new ConnectionsFragment();
@@ -86,15 +90,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @TargetApi(Build.VERSION_CODES.M)
     public boolean requestStoragePermission(String errorMessage) {
         int sdk = Build.VERSION.SDK_INT;
-        if(sdk >= Build.VERSION_CODES.M) {
+        if (sdk >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                     PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE}, MY_EXTERNAL_STORAGE);
                 this.errorMessage = errorMessage;
                 return false;
-            }
-            else
+            } else
                 return true;
         }
         return true;
@@ -109,16 +112,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem paste = menu.findItem(R.id.action_paste_file);
-        if(getActiveFragment()!=null && paste != null ){
+        if (getActiveFragment() != null && paste != null) {
             Log.d(TAG, "paste menu item found");
-            if(getActiveFragment().isPasteMode()) {
+            if (getActiveFragment().isPasteMode()) {
                 Log.d(TAG, "in paste mode");
                 savedTitle = getTitle().toString();
                 String state = (getActiveFragment().isCopy() ? "Copy" : "Cut");
-                setTitle(state + ": "+getActiveFragment().filesAdapter.getCutItemCount()+ " File(s).");
+                setTitle(state + ": " + getActiveFragment().filesAdapter.getCutItemCount() + " File(s).");
 
-            }
-            else if (savedTitle != null)
+            } else if (savedTitle != null)
                 setTitle(savedTitle);
             MenuItem home = menu.findItem(android.R.id.home);
             int icon = ((getActiveFragment() != null && getActiveFragment().isPasteMode()) ? R.drawable.ic_cancel : R.drawable.ic_back);
@@ -130,24 +132,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void setRemoteFragment(RemoteFilesFragment frag){
+    public void setRemoteFragment(RemoteFilesFragment frag) {
         this.remote = frag;
     }
 
-    public void setLocalFragment(LocalFilesFragment frag){
+    public void setLocalFragment(LocalFilesFragment frag) {
         this.local = frag;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_paste_file:
                 getActiveFragment().pasteFiles();
                 invalidateOptionsMenu();
                 return true;
             case android.R.id.home:
                 Log.d(TAG, "clicked home");
-                if(getActiveFragment().isPasteMode()){
+                if (getActiveFragment().isPasteMode() || getActiveFragment() == null) {
                     getActiveFragment().pasteMode(false);
                     return true;
                 }
@@ -159,14 +161,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         boolean back = false;
-        if(remote != null && isRemoteAlive && !isLocalAlive){
+        if (remote != null && isRemoteAlive && !isLocalAlive) {
             Log.d(TAG, "back pressed on remote");
             back = remote.pressBack();
-        }
-        else if(local != null && !isRemoteAlive && isLocalAlive){
+        } else if (local != null && !isRemoteAlive && isLocalAlive) {
             back = local.pressBack();
-        }
-        else{
+        } else {
             super.onBackPressed();
             /*Log.d(TAG, remote == null ? "remote is null in main" : "remote is not null in main");
             Log.d(TAG, isRemoteAlive ? "remote is alive in main" : "remote is not alive in main");
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         /*
         FTPConnection test = new FTPConnection();
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         */
     }
 
-    public void connectTo(FTPConnection connection){
+    public void connectTo(FTPConnection connection) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         FTPViewPager pager = FTPViewPager.newInstance(connection);
         ft.replace(R.id.main_placeholder, pager);
@@ -202,22 +202,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isLocalAlive = false;
     }
 
-    public void startEditConnection(FTPConnection connection){
+    public void startEditConnection(FTPConnection connection) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         EditConnectionFragment editCF = EditConnectionFragment.newInstance(connection);
         ft.replace(R.id.main_placeholder, editCF);
         ft.addToBackStack("EDIT_CONNECTION");
         ft.commit();
-
     }
 
-    public void finishEditConnection(FTPConnection old, FTPConnection edited){
+    public void finishEditConnection(FTPConnection old, FTPConnection edited) {
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         View v = getCurrentFocus();
-        if(v != null)
-        inputManager.hideSoftInputFromWindow(v.getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+        if (v != null)
+            inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
 
 
         FragmentManager fm = getSupportFragmentManager();
@@ -230,8 +229,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public FilesFragment getActiveFragment(){
-        if(remote!=null && isRemoteAlive && !isLocalAlive)
+    public FilesFragment getActiveFragment() {
+        if (remote != null && isRemoteAlive && !isLocalAlive)
             return remote;
         else
             return local;
@@ -239,10 +238,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(isRemoteAlive && !isLocalAlive){
+        if (isRemoteAlive && !isLocalAlive) {
             Toast.makeText(this, "remote!", Toast.LENGTH_SHORT).show();
-        }
-        else if(isLocalAlive && !isRemoteAlive){
+        } else if (isLocalAlive && !isRemoteAlive) {
             Toast.makeText(this, "local!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -250,16 +248,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case MY_EXTERNAL_STORAGE:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(isRemoteAlive)
+                    if (isRemoteAlive)
                         Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show();
-                    if(local != null)
+                    if (local != null)
                         local.refreshDir();
-                }
-                else
+                } else
                     Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         }
     }

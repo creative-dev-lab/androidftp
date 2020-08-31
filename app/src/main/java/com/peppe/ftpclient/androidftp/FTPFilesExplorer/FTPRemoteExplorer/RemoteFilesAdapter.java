@@ -245,7 +245,7 @@ public class RemoteFilesAdapter  extends FilesAdapter<FTPFile> {
                     if(!fragment.isPasteMode()) {
                         Log.d(TAG, "File " + file.getName() + " clicked.");
                         DownloadDialog dialog = DownloadDialog.newInstance(file);
-                        dialog.setTargetFragment(fragment, 1);
+//                        dialog.setTargetFragment(fragment, 1);
                         FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
                         dialog.show(fm, "Download");
                     }

@@ -223,7 +223,7 @@ public class LocalFilesAdapter extends FilesAdapter<File> {
                 } else {
                     Log.d(TAG, "File " + file.getName() + " clicked.");
                     UploadDialog dialog = UploadDialog.newInstance(file);
-                    dialog.setTargetFragment(fragment, 1);
+//                    dialog.setTargetFragment(fragment, 1);
                     FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
                     dialog.show(fm, "Upload");
                 }
